@@ -43,8 +43,3 @@ resource "aws_lambda_permission" "snsPermissions" {
   principal     = "sns.amazonaws.com"
   source_arn    = aws_sns_topic.slack-sns.arn
 }
-
-# resource "aws_lambda_event_source_mapping" "sns-trigger" {
-#   event_source_arn = aws_sns_topic.slack-sns.arn
-#   function_name    = aws_lambda_function.sns2slack.arn
-# }

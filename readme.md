@@ -13,3 +13,6 @@ Distribution version of the lambda's config file supplied [lambda.cfg-dist](lamb
 
 ## sns..tf
 Creates a new SNS Topic, and subscribes the appropriate lambda function
+
+## outputs..tf
+Exposes the SNS topic ARN as an output for consumption from other deployment pipelines.

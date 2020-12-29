@@ -58,7 +58,6 @@ data "aws_ssm_parameter" "sns2slack-arn" {
 ##### Example Usage
 ```hcl
 resource "aws_sns_topic_subscription" "http-sub-AWS-SSM-Parameter" {
-#   topic_arn = data.terraform_remote_state.SlackSNS.outputs.sns-arn
   topic_arn = data.aws_ssm_parameter.sns2slack-arn.value
   protocol = "http"
   endpoint = "http://not.a.real.url.tld"

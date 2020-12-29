@@ -28,11 +28,38 @@ data "terraform_remote_state" "SlackSNS" {
   }
 }
 ```
-#### Example usage
-_n.b. terraform =>12.0_
+##### Example usage
 ```hcl
-resource "aws_sns_topic_subscription" "email-sub" {
+resource "aws_sns_topic_subscription" "http-sub-RemoteTFState" {
   topic_arn = data.terraform_remote_state.SlackSNS.outputs.sns-arn
+  protocol = "http"
+  endpoint = "http://not.a.real.url.tld"
+}
+```
+
+#### AWS SSM Parameter Store
+##### Parameter created in [outputs.td](outputs.tf)
+```hcl 
+resource "aws_ssm_parameter" "sns2slack-arn" {
+  name  = "/projects/sns2slack/topic-arn"
+  type  = "String"
+  description = "Deployed from https://github.com/infosanity/sns2slack-terraform"
+  value = aws_sns_topic.slack-sns.arn
+}
+```
+
+##### Data loaded into 3rd party ddeployment via:
+```hcl
+data "aws_ssm_parameter" "sns2slack-arn" {
+  name = "/projects/sns2slack/topic-arn"
+}
+```
+
+##### Example Usage
+```hcl
+resource "aws_sns_topic_subscription" "http-sub-AWS-SSM-Parameter" {
+#   topic_arn = data.terraform_remote_state.SlackSNS.outputs.sns-arn
+  topic_arn = data.aws_ssm_parameter.sns2slack-arn.value
   protocol = "http"
   endpoint = "http://not.a.real.url.tld"
 }

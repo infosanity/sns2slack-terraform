@@ -19,7 +19,7 @@ Exposes the SNS topic ARN as an output for consumption from other deployment pip
 
 ### Use in other Terraform deployments.
 #### Remote tfstate as backend
-```json
+```hcl
 data "terraform_remote_state" "SlackSNS" {
   backend = "local"
 
@@ -30,7 +30,7 @@ data "terraform_remote_state" "SlackSNS" {
 ```
 #### Example usage
 _n.b. terraform =>12.0_
-```json
+```hcl
 resource "aws_sns_topic_subscription" "email-sub" {
   topic_arn = data.terraform_remote_state.SlackSNS.outputs.sns-arn
   protocol = "http"
